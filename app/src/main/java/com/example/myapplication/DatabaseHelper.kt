@@ -29,7 +29,20 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
+    fun addFavorite(title: String, uri: String) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(KEY_TITLE, title)
+        values.put(KEY_URI, uri)
+        db.insert(TABLE_FAVORITES, null, values)
+        db.close()
+    }
 
+    fun removeFavorite(title: String) {
+        val db = this.writableDatabase
+        db.delete(TABLE_FAVORITES, "$KEY_TITLE=?", arrayOf(title))
+        db.close()
+    }
 
     @SuppressLint("Range")
     fun getAllFavorites(): List<Audio> {
