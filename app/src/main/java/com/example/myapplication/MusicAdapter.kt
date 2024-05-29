@@ -69,3 +69,26 @@ class MusicAdapter(
 
         return view
     }
+    private fun updateLikeButton(button: Button, audio: Audio) {
+        if (databaseHelper.getAllFavorites().contains(audio)) {
+            button.text = "Unlike"
+        } else {
+            button.text = "Like"
+        }
+    }
+
+    fun filter(query: String) {
+        filteredAudioList = if (query.isEmpty()) {
+            audioList
+        } else {
+            val lowerCaseQuery = query.lowercase(Locale.getDefault())
+            audioList.filter { it.title.lowercase(Locale.getDefault()).contains(lowerCaseQuery) }
+        }
+        notifyDataSetChanged()
+    }
+
+    fun setCurrentPlayingPosition(position: Int) {
+        currentPlayingPosition = position
+        notifyDataSetChanged()
+    }
+}
