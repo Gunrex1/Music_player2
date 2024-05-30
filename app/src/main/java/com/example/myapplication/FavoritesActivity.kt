@@ -1,16 +1,5 @@
 package com.example.myapplication
 
-import android.content.Context
-import android.graphics.Color
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import java.util.Locale
-
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ListView
@@ -50,3 +39,16 @@ class FavoritesActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         playAudio(audio.uri, favoriteSongs, audioIndex)
         musicAdapter.setCurrentPlayingPosition(audioIndex) // Highlight the currently playing song
     }
+
+    private fun playPreviousSong() {
+        if (currentIndex > 0) {
+            val previousIndex = currentIndex - 1
+            val previousAudio = favoriteSongs[previousIndex]
+            playAudio(previousAudio.uri, favoriteSongs, previousIndex)
+            musicAdapter.setCurrentPlayingPosition(previousIndex) // Highlight the previously played song
+        } else {
+
+            Toast.makeText(this, "No previous song available", Toast.LENGTH_SHORT).show()
+        }
+    }
+}
