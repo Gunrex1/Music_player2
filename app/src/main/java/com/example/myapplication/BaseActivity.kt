@@ -1,6 +1,5 @@
 package com.example.myapplication
 
-
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -24,11 +23,7 @@ open class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    protected fun initializeMediaControls(
-        playPauseBtn: Button,
-        stopBtn: Button,
-        seekBarCtrl: SeekBar
-    ) {
+    protected fun initializeMediaControls(playPauseBtn: Button, stopBtn: Button, seekBarCtrl: SeekBar) {
         playPauseButton = playPauseBtn
         stopButton = stopBtn
         seekBar = seekBarCtrl
@@ -99,6 +94,28 @@ open class BaseActivity : AppCompatActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    private fun playNextSong() {
+        if (currentIndex < currentAudioList.size) {
+            val nextAudio = currentAudioList[currentIndex]
+            playAudio(nextAudio.uri, currentAudioList, currentIndex)
+        } else {
+            mediaPlayer?.release()
+            mediaPlayer = null
+            currentIndex = -1
+            musicAdapter?.setCurrentPlayingPosition(currentIndex)
+        }
+    }
+
+    protected fun setMusicAdapter(adapter: MusicAdapter) {
+        musicAdapter = adapter
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 }
 
