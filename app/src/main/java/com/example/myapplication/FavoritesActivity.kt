@@ -1,9 +1,11 @@
 package com.example.myapplication
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 class FavoritesActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
 
@@ -16,7 +18,11 @@ class FavoritesActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
+        }
         databaseHelper = DatabaseHelper(this)
+
 
         listViewFavorites = findViewById(R.id.listViewFavorites)
         initializeMediaControls(
