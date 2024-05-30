@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    tools:context=".FavoritesActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,23 +13,13 @@
         android:background="#009688"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:title="Music App"/>
-
-    <SearchView
-        android:id="@+id/searchView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search for songs" />
+        app:title="Favorites"/>
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/listViewFavorites"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/searchView"
-        android:layout_above="@+id/player_controls"/>
-
+        android:layout_marginTop="65dp"
+        android:layout_height="match_parent"/>
     <LinearLayout
         android:id="@+id/player_controls"
         android:layout_width="match_parent"
@@ -41,11 +30,12 @@
 
         <Button
             android:id="@+id/btn_play_pause"
-            android:layout_width="10dp"
+            android:layout_width="15dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:backgroundTint="#009688"
-            android:text="Play"/>
+            android:layout_weight="1"
+            android:text="Play"
+            tools:ignore="HardcodedText" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -53,25 +43,26 @@
             android:layout_height="50dp"
             android:layout_weight="2"
             android:paddingStart="16dp"
-
             android:paddingEnd="16dp"/>
 
         <Button
             android:id="@+id/btn_stop"
-            android:layout_width="8dp"
+            android:layout_width="9dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:backgroundTint="#009688"
-
-            android:text="Next"/>
-
+            android:layout_weight="1"
+            android:text="Next"
+            tools:ignore="HardcodedText" />
         <Button
             android:id="@+id/btn_previous"
-            android:layout_width="10dp"
+            android:layout_width="11dp"
             android:layout_height="45dp"
             android:layout_weight="1"
             android:backgroundTint="#009688"
-            android:text="Back" />
-    </LinearLayout>
+            android:text= "Back"
+            tools:ignore="HardcodedText" />
 
+
+
+    </LinearLayout>
 </RelativeLayout>
