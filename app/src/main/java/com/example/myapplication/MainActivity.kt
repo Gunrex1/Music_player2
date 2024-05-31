@@ -17,21 +17,20 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
+// MainActivity extends BaseActivity and manages the main screen of the app
 class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
 
-    private lateinit var listView: ListView
-    private lateinit var musicAdapter: MusicAdapter
-    private lateinit var searchView: SearchView
-    private lateinit var databaseHelper: DatabaseHelper
-    private lateinit var currentAudioList: List<Audio>
+    private lateinit var listView: ListView // ListView for displaying audio files
+    private lateinit var musicAdapter: MusicAdapter // Adapter for managing audio list
+    private lateinit var searchView: SearchView // SearchView for filtering audio list
+    private lateinit var databaseHelper: DatabaseHelper // Helper for database operations
+    private lateinit var currentAudioList: List<Audio> // List of audio files
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
-        }
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -49,6 +48,7 @@ class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
             playPreviousSong()
         }
 
+        // Check for storage permission and load audio files if granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         } else {
@@ -67,6 +67,7 @@ class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         })
     }
 
+    // Handle the result of the permission request
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -76,6 +77,7 @@ class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         }
     }
 
+    // Load audio files from external storage
     private fun loadAudioFiles() {
         val audioList = mutableListOf<Audio>()
         val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
@@ -97,16 +99,19 @@ class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         setMusicAdapter(musicAdapter) // Set adapter in BaseActivity
     }
 
+    // Handle item click in the list
     override fun onItemClick(audio: Audio) {
         val audioIndex = currentAudioList.indexOf(audio)
         playAudio(audio.uri, currentAudioList, audioIndex)
     }
 
+    // Inflate the options menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
+    // Handle options menu item clicks
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_favorites -> {
@@ -122,6 +127,7 @@ class MainActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         }
     }
 
+    // Play the previous song in the list
     private fun playPreviousSong() {
         if (currentIndex > 0) {
             val previousIndex = currentIndex - 1

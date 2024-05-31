@@ -9,20 +9,22 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.io.IOException
 
+// BaseActivity is the base class for handling media playback functionality
 open class BaseActivity : AppCompatActivity() {
 
-    protected var mediaPlayer: MediaPlayer? = null
-    protected lateinit var playPauseButton: Button
-    protected lateinit var stopButton: Button
-    protected lateinit var seekBar: SeekBar
-    var currentIndex: Int = -1
-    private lateinit var currentAudioList: List<Audio>
-    private var musicAdapter: MusicAdapter? = null
+    protected var mediaPlayer: MediaPlayer? = null // MediaPlayer instance for audio playback
+    protected lateinit var playPauseButton: Button // Button for play/pause control
+    protected lateinit var stopButton: Button // Button for stop control
+    protected lateinit var seekBar: SeekBar // SeekBar for showing and seeking playback progress
+    var currentIndex: Int = -1 // Index of the currently playing audio
+    private lateinit var currentAudioList: List<Audio> // List of audio files
+    private var musicAdapter: MusicAdapter? = null // Adapter for managing audio list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
+    // Initialize media controls and set their click listeners
     protected fun initializeMediaControls(playPauseBtn: Button, stopBtn: Button, seekBarCtrl: SeekBar) {
         playPauseButton = playPauseBtn
         stopButton = stopBtn
@@ -58,10 +60,11 @@ open class BaseActivity : AppCompatActivity() {
         })
     }
 
+    // Play an audio file from a given URI and list of audio files starting from a specified index
     protected fun playAudio(uri: Uri, audioList: List<Audio>, startIndex: Int) {
         currentAudioList = audioList
         currentIndex = startIndex
-        mediaPlayer?.release()
+        mediaPlayer?.release() // Release previous MediaPlayer if any
         mediaPlayer = MediaPlayer()
 
         try {
@@ -82,6 +85,7 @@ open class BaseActivity : AppCompatActivity() {
             // Update adapter with current playing position
             musicAdapter?.setCurrentPlayingPosition(currentIndex)
 
+            // Update seekBar in a separate thread
             Thread {
                 while (mediaPlayer != null && mediaPlayer!!.isPlaying) {
                     runOnUiThread {
@@ -96,6 +100,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    // Play the next song in the list
     private fun playNextSong() {
         if (currentIndex < currentAudioList.size) {
             val nextAudio = currentAudioList[currentIndex]
@@ -108,14 +113,15 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    // Set the adapter for the music list
     protected fun setMusicAdapter(adapter: MusicAdapter) {
         musicAdapter = adapter
     }
 
+    // Release MediaPlayer resources when the activity is destroyed
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer?.release()
         mediaPlayer = null
     }
 }
-
