@@ -19,9 +19,7 @@ class FavoritesActivity : BaseActivity(), MusicAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.orange)
-        }
+
         databaseHelper = DatabaseHelper(this)
 
         listViewFavorites = findViewById(R.id.listViewFavorites)
